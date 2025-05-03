@@ -14,18 +14,28 @@ public class RecursiveProduct {
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         int[] fiveNumbersInput = new int[5];
 
-        System.out.println("Enter 5 numbers:");
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Enter 5 numbers:");
 
-        for (int i = 0; i < 5; i++) {
-            System.out.print("Number " + (i + 1) + ": ");
-            fiveNumbersInput[i] = scanner.nextInt();
+            for (int i = 0; i < 5; i++) {
+                while (true) {
+                    System.out.print("Number " + (i + 1) + ": ");
+                    if (scanner.hasNextInt()) {
+                        fiveNumbersInput[i] = scanner.nextInt();
+                        break;
+                    } else {
+                        System.out.println("Invalid input. Please enter a valid integer.");
+                        scanner.next(); // Clear invalid input
+                    }
+                }
+            }
+            scanner.close();
+
+            int product = calculateproduct(fiveNumbersInput, 0);
+            System.out.println("The product of the 5 numbers is: " + product);
         }
-
-        int product = calculateproduct(fiveNumbersInput, 0);
-        System.out.println("The product of the 5 numbers is: " + product);
     }
 
     /**
